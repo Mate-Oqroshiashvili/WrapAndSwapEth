@@ -9,7 +9,6 @@ async function main() {
 
     const address = wallet.address;
 
-    // Display initial balances
     await displayBalances(provider, address, "Initial Balances");
 
     const wethContract = connectContract(
@@ -25,7 +24,6 @@ async function main() {
     const amountToWrap = ethers.utils.parseEther("2");
     await depositWETH(wethContract, amountToWrap);
 
-    // Display balances after wrapping ETH
     await displayBalances(provider, address, "Balances After Wrapping ETH");
 
     const usdtContractAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
@@ -63,7 +61,6 @@ async function main() {
       deadline
     );
 
-    // Display final balances after swapping WETH to USDT
     await displayBalances(
       provider,
       address,
