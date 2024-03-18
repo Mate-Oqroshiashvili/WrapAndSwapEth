@@ -1,6 +1,6 @@
 const { ethers } = require("ethers");
 const { connectProvider } = require("./ethereum");
-const { connectWallet, getWalletBalance } = require("./wallet");
+const { connectWallet } = require("./wallet");
 const {
   connectContract,
   depositWETH,
@@ -30,7 +30,7 @@ async function main() {
       ]
     );
 
-    const amountToWrap = ethers.utils.parseEther("2");
+    const amountToWrap = ethers.parseEther("2");
     await depositWETH(wethContract, amountToWrap);
 
     await displayBalances(provider, address, "Balances After Wrapping ETH");

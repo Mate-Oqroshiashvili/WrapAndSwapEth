@@ -5,7 +5,7 @@ async function displayBalances(provider, address, title) {
   console.log("===========================================");
   console.log(
     "ETH balance:",
-    ethers.utils.formatEther(await provider.getBalance(address))
+    ethers.formatEther(await provider.getBalance(address))
   );
 
   const wethContractAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
@@ -16,7 +16,7 @@ async function displayBalances(provider, address, title) {
   );
   console.log(
     "WETH balance:",
-    ethers.utils.formatEther(await wethContract.balanceOf(address))
+    ethers.formatEther(await wethContract.balanceOf(address))
   );
 
   const usdtContractAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
@@ -27,7 +27,7 @@ async function displayBalances(provider, address, title) {
   );
   console.log(
     "USDT balance:",
-    ethers.utils.formatUnits(await usdtContract.balanceOf(address), 6)
+    ethers.formatUnits(await usdtContract.balanceOf(address), 6)
   );
 }
 
