@@ -2,12 +2,16 @@ const { ethers } = require("ethers");
 const { connectProvider } = require("./ethereum");
 const { connectWallet } = require("./wallet");
 const {
-  connectContract,
+  connectWETHContract,
   depositWETH,
   approveSpending,
+} = require("./wethContract");
+const {
+  connectUniswapRouterContract,
+  getAmountOutMin,
   swapTokens,
-} = require("./contract");
-const { displayBalances, getAmountOutMin } = require("./utils");
+} = require("./uniswapRouterContract");
+const { displayBalances } = require("./utils");
 
 async function main() {
   try {
@@ -20,16 +24,7 @@ async function main() {
 
     await displayBalances(provider, address, "Initial Balances");
 
-    const wethContract = connectContract(
-      wallet,
-      "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      [
-        "function deposit() payable",
-        "function balanceOf(address owner) view returns (uint256)",
-        "function approve(address spender, uint256 amount) returns (bool)",
-      ]
-    );
-
+    const wethContract = connectWETHContract(wallet);
     const amountToWrap = ethers.parseEther("2");
     await depositWETH(wethContract, amountToWrap);
 
@@ -42,15 +37,7 @@ async function main() {
       amountToWrap
     );
 
-    const uniswapRouterContract = connectContract(
-      wallet,
-      "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
-      [
-        "function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts)",
-        "function getAmountsOut(uint amountIn, address[] memory path) public view returns (uint[] memory amounts)",
-      ]
-    );
-
+    const uniswapRouterContract = connectUniswapRouterContract(wallet);
     const amountOutMin = await getAmountOutMin(
       uniswapRouterContract,
       amountToWrap,
